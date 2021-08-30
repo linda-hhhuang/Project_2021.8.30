@@ -1,0 +1,9 @@
+{
+  "/api/**": {
+    "target": "http://timzhong.top:31000",
+    "secure": true,
+    "changeOrigin": true,
+    "cookieDomainRewrite": "",
+    "ws": true
+  }
+}

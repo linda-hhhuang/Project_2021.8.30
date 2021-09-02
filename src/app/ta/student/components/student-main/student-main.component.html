@@ -1,0 +1,12 @@
+<nz-tabset nzLinkRouter nzLinkExact="false" class="ml-4">
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['home']">主页</a>
+  </nz-tab>
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['personal']">个人信息与奖学金报名</a>
+  </nz-tab>
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['result']">奖学金结果公示</a>
+  </nz-tab>
+</nz-tabset>
+<router-outlet></router-outlet>

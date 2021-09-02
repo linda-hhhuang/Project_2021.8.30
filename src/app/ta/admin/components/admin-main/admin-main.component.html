@@ -1,0 +1,15 @@
+<nz-tabset nzLinkRouter nzLinkExact="false" class="ml-4">
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['home']">主页</a>
+  </nz-tab>
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['student']">学生</a>
+  </nz-tab>
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['reviewer']">评审</a>
+  </nz-tab>
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['export']">导出结果</a>
+  </nz-tab>
+</nz-tabset>
+<router-outlet></router-outlet>

@@ -1,0 +1,20 @@
+<div class="ml-16 mt-10 ">
+  <div class="h-64 w-120 float-left border-antd border-solid border-2 p-6 rounded-lg">
+    <div class="mt-3 mb-4">
+      <span class="text-2xl">当前奖学金评审 : </span>
+      <span class="text-3xl font-bold" nz-typography nzType='success'>{{'进行中'}}</span>
+    </div>
+    <button nz-button [nzType]="'primary'" class="ml-16" nz-tooltip
+      nzTooltipTitle="请下载加分细则，评估与填写自己的总分。并将相关辅助材料上传到个人信息中！">
+      <a href='/assets/中山大学计算机学院2021年优秀大学生奖学金加分细则.pdf'>下载加分细则</a>
+    </button>
+  </div>
+
+  <div class="h-64 w-120 float-left ml-36 border-antd border-solid border-2 p-6 rounded-lg text-center">
+    <h3 nz-typography>评审端功能导航</h3>
+    <!-- <button nz-button class="mb-4 mt-2" [nzSize]='"large"' nzType="default" routerLink="../personal"
+      routerLinkActive="active">个人信息</button>
+    <br> -->
+    <button nz-button class="mt-8" [nzSize]='"large"' nzType="default" routerLink="../member"
+      routerLinkActive="active">学生列表</button>
+  </div>

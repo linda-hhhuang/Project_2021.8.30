@@ -1,26 +1,42 @@
-import { SignTemplate } from './request';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
+
+export interface Comment {
+  [index: string]: any;
+  cid: number;
+  comment: string;
+  studentSid: number;
+  reviewerSid: number;
+  date: string;
+}
 
 export interface Student {
-  [index: string]: number | string | boolean | SignTemplate;
-  uid: number; // 账号
-  name: string; // 姓名
-  score1: number; // 初评分分数
-  pass1: boolean; // 第一轮通过情况
-  score2: number; // 奖学金成绩
-  status: number; // 材料审核状态
-  // Wait 0 材料待审核
-  // Pass 1 材料被审核过的意思
-  // Validate 2
-  // Checked 3 学生确定奖学金成绩
-  groupGid: number; // 组号
-  sign: string; // 签名
-  SignupTemplate: SignTemplate;
+  [index: string]: any;
+  sid: number;
+  name: string;
+  class: string;
+  description: string;
+  status: number;
+  //   Wait
+  //   Reject
+  //   Pass
+  //   Validate
+  score: string;
+  Comment: Comment[];
 }
 
 export interface Teacher {
-  [index: string]: number | string;
-  uid: number; // 账号
-  name: string; // 姓名
-  phone: string; // 联系电话
-  groupGid: number; // 组号
+  [index: string]: any;
+  sid: number;
+  name: string;
+  class: string;
+  Comment: Comment[];
 }
+
+export type FileList = {
+  [index: string]: number | string | NzUploadFile;
+  fid: string;
+  filename: string;
+  studentSid: number;
+  date: string;
+  nzUpload: NzUploadFile;
+};

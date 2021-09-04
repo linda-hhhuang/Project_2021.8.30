@@ -17,14 +17,14 @@
   </div> -->
 
 <div class="ml-16 mt-10 ">
-  <div class="h-64 w-120 float-left border-antd border-solid border-2 p-6 rounded-lg">
-    <div class="mt-3 mb-4">
+  <div class="h-64 w-120 float-left border-antd border-solid border-2 p-6 rounded-lg text-center">
+    <div class="mt-5 mb-4">
       <span class="text-2xl">当前奖学金评审 : </span>
       <span class="text-3xl font-bold" nz-typography nzType='success'>{{'进行中'}}</span>
     </div>
-    <button nz-button [nzType]="'primary'" class="ml-16" nz-tooltip
-      nzTooltipTitle="请下载加分细则，评估与填写自己的总分。并将相关辅助材料上传到个人信息中！">
-      <a href='/assets/中山大学计算机学院2021年优秀大学生奖学金加分细则.pdf'>下载加分细则</a>
+    <button nz-button [nzType]="'primary'" class="mt-10 h-12 w-48" nz-tooltip
+      nzTooltipTitle="请下载加分细则，评估自己的总分，并与相关辅助材料一同上传到奖学金申请中！">
+      <a href='/assets/中山大学计算机学院2021年优秀大学生奖学金加分细则.pdf' target='_blank'>查看/下载当前加分细则</a>
     </button>
   </div>
 
@@ -32,9 +32,9 @@
   <div class="h-64 w-120 float-left ml-36 border-antd border-solid border-2 p-8 rounded-lg text-center">
     <h3 nz-typography>学生端功能导航</h3>
     <button nz-button class="mb-4 mt-4" [nzSize]='"large"' nzType="default" routerLink="../personal"
-      routerLinkActive="active">个人信息与奖学金报名</button>
+      routerLinkActive="active">奖学金申请</button>
     <br>
-    <button nz-button class="mb-4 " [nzSize]='"large"' nzType="default" routerLink="../result"
+    <button nz-button class="mt-5 " [nzSize]='"large"' nzType="default" routerLink="../result"
       routerLinkActive="active">奖学金结果公示</button>
 
   </div>

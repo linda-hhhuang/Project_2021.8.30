@@ -11,13 +11,10 @@ export class AdminMemberTeacherComponent implements OnInit {
   teacherList: Teacher[] | null = [];
   currentDisplayUserList!: Teacher[] | null;
 
-  currentSelectedUser!: Teacher;
+  // currentSelectedUser!: Teacher;
 
-  isVisibleShowInfo = false;
-  isOkLoadingShowInfo = false;
-
-  isVisibleResetInfo = false;
-  isOkLoadingResetInfo = false;
+  // isVisibleShowInfo = false;
+  // isOkLoadingShowInfo = false;
 
   searchNameValue = '';
   visibleSearchName = false;
@@ -37,19 +34,19 @@ export class AdminMemberTeacherComponent implements OnInit {
     });
   }
 
-  showModalShowInfo(e: any) {
-    console.log('in ShowInfo ', e);
-    this.adminSrvc.getTeacherInfo(e.uid).subscribe((v) => {
-      this.currentSelectedUser = v.body;
-      this.isVisibleShowInfo = true;
-    });
-  }
-  handleOkShowInfo(): void {
-    this.isVisibleShowInfo = false;
-  }
+  // showModalShowInfo(e: any) {
+  //   console.log('in ShowInfo ', e);
+  //   this.adminSrvc.getTeacherInfo(e.sid).subscribe((v) => {
+  //     this.currentSelectedUser = v.body;
+  //     this.isVisibleShowInfo = true;
+  //   });
+  // }
+  // handleOkShowInfo(): void {
+  //   this.isVisibleShowInfo = false;
+  // }
 
   deleteConfirm(user: Teacher) {
-    this.adminSrvc.deleteTeacher(user.uid).subscribe((_) => {
+    this.adminSrvc.deleteTeacher(user.sid).subscribe((_) => {
       this.message.success('删除评审成功!');
       this.ngOnInit();
     });
@@ -75,7 +72,7 @@ export class AdminMemberTeacherComponent implements OnInit {
   searchSid(): void {
     this.visibleSearchSid = false;
     this.currentDisplayUserList = this.teacherList!.filter(
-      (item: Teacher) => String(item.uid).indexOf(this.searchSidValue) !== -1
+      (item: Teacher) => String(item.sid).indexOf(this.searchSidValue) !== -1
     );
   }
 }

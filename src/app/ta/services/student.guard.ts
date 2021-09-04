@@ -27,7 +27,7 @@ export class StudentGuard implements CanActivate {
     return this.userServ.memberRole$.pipe(
       skipWhile((v) => v == -1),
       map((role) => {
-        if (role == 3) {
+        if (role == 2) {
           console.log('ta/student.guard: role=3 : true(default)');
           return true;
         } else {

@@ -14,35 +14,35 @@ export class AdminExportComponent implements OnInit {
 
   exportCvs() {
     this.isLoading = true;
-    let title = [
-      '姓名',
-      '账号',
-      '组别',
-      '初试分数',
-      '是否已经通过初试',
-      '奖学金成绩',
+    let title = ['姓名', '学号', '班级', '自评分数', '状态'];
+
+    let titleForKey = [
+      'name',
+      'uid',
+      'class',
+      'groupGid',
+      'score1',
+      'pass1',
+      'score2',
     ];
-    let titleForKey = ['name', 'uid', 'groupGid', 'score1', 'pass1', 'score2'];
     this.adminSrvc.getStudentList().subscribe((v) => {
       this.isLoading = false;
-      let data = v.body
-        // .filter((n: Student) => n.pass1 == true)
-        .map((v: Student) => {
-          return {
-            name: v.name,
-            uid: v.uid,
-            groupGid: v.groupGid,
-            score1: v.score1 == -1 ? '无成绩' : v.score1,
-            pass1: v.pass1 ? '是' : '否',
-            score2: v.score2 == -1 ? '无成绩' : v.score2,
-          };
-        });
+      let data = v.body.map((v: Student) => {
+        return {
+          name: v.name,
+          sid: v.sid,
+          class: v.class,
+          score: v.score,
+          status:
+            v.status == 2 || v.status == 3 ? '未获得奖学金' : '获得奖学金',
+        };
+      });
       let str = [];
       str.push(title.join(',') + '\n');
       for (let i = 0; i < data.length; i++) {
         let temp: any[] = [];
         for (let j = 0; j < titleForKey.length; j++) {
-          if (j == 0 || j == 2) temp.push('\t' + data[i][titleForKey[j]]);
+          if (j == 1) temp.push('\t' + data[i][titleForKey[j]]);
           else temp.push(data[i][titleForKey[j]]);
         }
         str.push(temp.join(',') + '\n');
@@ -52,7 +52,7 @@ export class AdminExportComponent implements OnInit {
       let downloadLink = document.createElement('a');
       downloadLink.href = uri;
       downloadLink.download =
-        new Date().toISOString().substring(0, 10) + '-奖学金评审报名结果.csv';
+        new Date().toISOString().substring(0, 10) + '-奖学金评审公示结果.csv';
       document.body.appendChild(downloadLink);
       downloadLink.click();
       document.body.removeChild(downloadLink);

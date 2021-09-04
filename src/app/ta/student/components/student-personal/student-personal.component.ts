@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
-import { Student } from '@ta/model/member';
 import { filter, map } from 'rxjs/operators';
 import { RequestService } from '@ta/student/services/request.service';
-import { FileList } from '@ta/model/request';
+import { FileList, Student, Comment } from '@ta/model/member';
 
 @Component({
   selector: 'app-student-personal',
@@ -12,11 +11,16 @@ import { FileList } from '@ta/model/request';
   styleUrls: ['./student-personal.component.css'],
 })
 export class StudentPersonalComponent implements OnInit {
+  commentList: Comment[] = [];
+
   isVisibleUpdateInfo = false;
   isOkLoadingUpdateInfo = false;
 
   isVisibleUpload = false;
   isOkLoadingUpload = false;
+
+  isVisibleComment = false;
+  isOkLoadingComment = false;
 
   currentStudentInfo!: Student;
 
@@ -27,17 +31,17 @@ export class StudentPersonalComponent implements OnInit {
 
   currentStatus: number = 0;
   status = [
-    '等待辅导员审核',
-    '材料已被审核,请等待结果',
-    '材料已被审核,请等待结果',
-    '本人已通过奖学金成绩审核',
+    '等待评审',
+    '被拒绝,请查看评论',
+    '奖学金评审通过,请查看结果公示',
+    '奖学金辅导员评定通过,请查看结果公示',
   ];
   AntdStatus = function (v: number) {
     switch (v) {
       case 0:
         return 'warning';
       case 1:
-        return 'success';
+        return 'danger';
       case 2:
         return 'success';
       case 3:
@@ -53,13 +57,10 @@ export class StudentPersonalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.requestrSrvc.getStudentInfo().subscribe((student) => {
-      this.currentStudentInfo = student.body;
-      console.log('in student-personal ngOnInit, data is ', student);
-    });
-    this.requestrSrvc.getUploadFileList().subscribe((v) => {
-      console.log('in student-personal ngOnInit, data is ', v);
-      this.displayFileList = v.body;
+    this.requestrSrvc.getStudentInfo().subscribe((v) => {
+      console.log('in showModalUpdateInfo', v);
+      this.currentStudentInfo = v.body;
+      this.currentStatus = this.currentStudentInfo.status;
     });
   }
 
@@ -74,22 +75,18 @@ export class StudentPersonalComponent implements OnInit {
   handleOkUpdateInfo(): void {
     this.isOkLoadingUpdateInfo = true;
     console.log('in handleOkUpdateInfo, data is ', this.currentStudentInfo);
-    if (this.currentStudentInfo.SignupTemplate.description.length > 300) {
-      this.message.error('申请人个人陈述字数不能超过300个字!');
-      this.isOkLoadingUpdateInfo = false;
-      return;
-    }
-    if (this.currentStudentInfo.SignupTemplate.achievements.length > 300) {
-      this.message.error('科研成果描述字数不能超过300个字!');
-      this.isOkLoadingUpdateInfo = false;
-      return;
-    }
+    // if (this.currentStudentInfo.SignupTemplate.description.length > 300) {
+    //   this.message.error('申请人个人陈述字数不能超过300个字!');
+    //   this.isOkLoadingUpdateInfo = false;
+    //   return;
+    // }
     this.requestrSrvc
       .updateStudentInfo(this.currentStudentInfo)
       .subscribe((response) => {
-        this.message.success(response.msg);
+        this.message.success('成功提交/更新奖学金申请！');
         this.isOkLoadingUpdateInfo = false;
         this.isVisibleUpdateInfo = false;
+        this.ngOnInit();
       });
   }
   handleCancelUpdateInfo(): void {
@@ -100,16 +97,25 @@ export class StudentPersonalComponent implements OnInit {
 
   //文件
   showModalUpload(): void {
-    this.requestrSrvc.fileList$
-      .pipe(filter((v) => v != null))
-      .subscribe((v) => {
-        console.log('in showModalUpload', v);
-        this.isVisibleUpload = true;
-        this.displayFileList = v!;
-      });
+    this.requestrSrvc.getUploadFileList().subscribe((v) => {
+      console.log('in student-personal ngOnInit, data is ', v);
+      this.displayFileList = v.body;
+      this.isVisibleUpload = true;
+    });
   }
   handleOkUpload(): void {
     this.isVisibleUpload = false;
+  }
+
+  //评论
+  showModalComment(): void {
+    this.requestrSrvc.getStudentInfo().subscribe((v) => {
+      this.commentList = v.body.Comment;
+      this.isVisibleComment = true;
+    });
+  }
+  handleOkComment(): void {
+    this.isVisibleComment = false;
   }
 
   beforeUpload = (file: NzUploadFile): boolean => {
@@ -127,42 +133,6 @@ export class StudentPersonalComponent implements OnInit {
     return false;
   };
 
-  beforeUploadSign = (file: any): boolean => {
-    if (file) {
-      const reader: FileReader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (e: any) => {
-        const bstr = reader.result!;
-        console.log('upload sign', file.size);
-        const isLt2M = file.size / 1024 < 100;
-        if (!isLt2M) {
-          this.message.error('签名图片大小需小于100KB!');
-        } else {
-          this.currentStudentInfo.SignupTemplate.sign = String(bstr);
-        }
-      };
-    }
-    return false;
-  };
-
-  beforeUploadPhoto = (file: any): boolean => {
-    if (file) {
-      const reader: FileReader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (e: any) => {
-        const bstr = reader.result!;
-        console.log('upload photo', file.size);
-        const isLt2M = file.size / 1024 < 1024;
-        if (!isLt2M) {
-          this.message.error('证件图片大小需小于1MB!');
-        } else {
-          this.currentStudentInfo.SignupTemplate.photo = String(bstr);
-        }
-      };
-    }
-    return false;
-  };
-
   handleUpload(): void {
     // 手动上传
     this.fileList.forEach((file: any) => {
@@ -175,7 +145,11 @@ export class StudentPersonalComponent implements OnInit {
         this.message.success(
           `${file.name} 上传完毕,请在下方检查成功上传的文件`
         );
-        this.ngOnInit();
+        this.requestrSrvc.getUploadFileList().subscribe((v) => {
+          console.log('in student-personal , data is ', v);
+          this.displayFileList = v.body;
+          this.isVisibleUpload = true;
+        });
       });
     });
     this.fileList = [];
@@ -183,11 +157,17 @@ export class StudentPersonalComponent implements OnInit {
 
   deleteUploadConfirm(data: FileList) {
     this.requestrSrvc.deleteUpload(data.fid).subscribe((_) => {
-      this.ngOnInit();
+      this.requestrSrvc.getUploadFileList().subscribe((v) => {
+        console.log('in student-personal , data is ', v);
+        this.displayFileList = v.body;
+        this.isVisibleUpload = true;
+      });
       this.message.success(`成功删除 ${data.filename} `);
     });
   }
+
   deleteUploadCancel() {}
+
   downloadUpload(data: FileList) {
     this.requestrSrvc.studentdownloadUpload(data.fid);
   }

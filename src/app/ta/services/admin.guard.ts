@@ -27,7 +27,7 @@ export class AdminGuard implements CanActivate {
     return this.userServ.memberRole$.pipe(
       skipWhile((v) => v == -1),
       map((role) => {
-        if (role == 1 || role == 0) {
+        if (role == 0) {
           console.log('ta/admin.guard: role=0/1 : true(default)');
           return true;
         } else {

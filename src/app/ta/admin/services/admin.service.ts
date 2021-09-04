@@ -81,6 +81,19 @@ export class AdminService {
     );
   }
 
+  setClassValidate(className: string) {
+    return this.api.put<any>(`/admin/class/${className}/pass`, null).pipe(
+      tap({
+        next: (response) => {
+          console.log('in Student service setClassValidate', response);
+        },
+        error: (err) => {
+          this.handleError(err.error.msg);
+        },
+      })
+    );
+  }
+
   deleteStudent(sid: number) {
     return this.api.delete<any>(`/admin/student/${sid}`).pipe(
       tap({

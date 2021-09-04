@@ -1,19 +1,2 @@
-<button class="mt-2 ml-8 h-10 w-60" nz-button [nzType]="'primary'"
-  (click)="showModalScore()"><span>查询奖学金公示名单</span></button>
-
-<!-- 成绩的对话框 -->
-<nz-modal [nzStyle]="{ width: '60%' }" [(nzVisible)]="isVisibleScore" nzTitle="奖学金成绩" (nzOnCancel)="handleOkScore()"
-  (nzOnOk)="handleOkScore()" [nzOkLoading]="isOkLoadingScore">
-  <ng-container *nzModalContent>
-    <nz-descriptions nzTitle="" nzBordered>
-      <nz-descriptions-item nzTitle="姓名" nzSpan="1">
-        {{currentPublicity.name}} </nz-descriptions-item>
-    </nz-descriptions>
-
-
-  </ng-container>
-
-  <div *nzModalFooter>
-    <button nz-button nzType="default" (click)="handleOkScore()">确认</button>
-  </div>
-</nz-modal>
+<button class="mt-4 ml-8 h-10" nz-button nzType="primary" (click)="exportCvs()"
+  [nzLoading]="isLoading">查询奖学金公示名单</button>

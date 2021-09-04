@@ -81,17 +81,22 @@ export class TeacherService {
     );
   }
 
-  setStudentReject(sid: number) {
-    return this.api.put<any>(`/reviewer/student/${sid}/reject`, null).pipe(
-      tap({
-        next: (response) => {
-          console.log('in Student service setStudentReject', response);
-        },
-        error: (err) => {
-          this.handleError(err.error.msg);
-        },
+  setStudentReject(sid: number, comment: string) {
+    return this.api
+      .put<any>(`/reviewer/student/${sid}/reject`, {
+        studentSid: sid,
+        comment: comment,
       })
-    );
+      .pipe(
+        tap({
+          next: (response) => {
+            console.log('in Student service setStudentReject', response);
+          },
+          error: (err) => {
+            this.handleError(err.error.msg);
+          },
+        })
+      );
   }
 
   private handleError(error: string) {

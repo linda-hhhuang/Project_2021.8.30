@@ -4,7 +4,7 @@
   <nz-table #currentUserInTable [nzPageSize]="10" nzShowQuickJumper [nzData]='currentDisplayUserList!'>
     <thead>
       <tr>
-        <th nzCustomFilter>工号
+        <th nzCustomFilter>学号
           <nz-filter-trigger [(nzVisible)]="visibleSearchSid" [nzActive]="searchSidValue.length > 0"
             [nzDropdownMenu]="searchSidMenu">
             <i nz-icon nzType="filter" nzTheme="twotone"></i>
@@ -16,18 +16,18 @@
             <i nz-icon nzType="filter" nzTheme="twotone"></i>
           </nz-filter-trigger>
         </th>
-        <th>所在组号</th>
+        <th>所在班级</th>
         <th>操作</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of currentUserInTable.data">
-        <td>{{ data.uid }}</td>
+        <td>{{ data.sid }}</td>
         <td>{{ data.name }}</td>
-        <td>{{ data.groupGid }}</td>
+        <td>{{ data.class }}</td>
         <td>
-          <a nz-button nzType="link" (click)="showModalShowInfo(data)">查看更多信息</a>
-          <nz-divider nzType="vertical"></nz-divider>
+          <!-- <a nz-button nzType="link" (click)="showModalShowInfo(data)">查看更多信息</a>
+          <nz-divider nzType="vertical"></nz-divider> -->
           <a nz-button nzType="link" nz-popconfirm nzPopconfirmTitle="确定要删除评审 {{data.name}} 吗?"
             nzPopconfirmPlacement="bottom" (nzOnConfirm)="deleteConfirm(data)" (nzOnCancel)="deleteCancel()"
             nzOkText="确认删除" nzCancelText="取消">删除评审</a>
@@ -63,13 +63,13 @@
   </nz-dropdown-menu>
 
   <!-- 查看个人信息的对话框 -->
-  <nz-modal [nzStyle]="{ width: '60%' }" [(nzVisible)]="isVisibleShowInfo" nzTitle="查看个人信息"
+  <!-- <nz-modal [nzStyle]="{ width: '60%' }" [(nzVisible)]="isVisibleShowInfo" nzTitle="查看个人信息"
     (nzOnOk)="handleOkShowInfo()" (nzOnCancel)="handleOkShowInfo()" [nzOkLoading]="isOkLoadingShowInfo">
     <ng-container *nzModalContent>
       <nz-descriptions nzTitle="" nzBordered>
-        <nz-descriptions-item nzTitle="工号">{{currentSelectedUser.uid}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="学号">{{currentSelectedUser.sid}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="姓名">{{currentSelectedUser.name}}</nz-descriptions-item>
-        <nz-descriptions-item nzTitle="所在组号">{{currentSelectedUser.groupGid}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="所在班级">{{currentSelectedUser.groupGid}}</nz-descriptions-item>
         <nz-descriptions-item nzTitle="联系方式" nzSpan="3">{{currentSelectedUser.phone}}</nz-descriptions-item>
 
       </nz-descriptions>
@@ -77,5 +77,5 @@
     <div *nzModalFooter>
       <button nz-button nzType="default" (click)="handleOkShowInfo()">确认</button>
     </div>
-  </nz-modal>
+  </nz-modal> -->
 </div>

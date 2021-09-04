@@ -27,7 +27,7 @@ export class TeacherGuard implements CanActivate {
     return this.userServ.memberRole$.pipe(
       skipWhile((v) => v == -1),
       map((role) => {
-        if (role == 2) {
+        if (role == 1) {
           console.log('ta/student.guard: role=2 : true(default)');
           return true;
         } else {

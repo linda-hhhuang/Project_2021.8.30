@@ -3,8 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tap, finalize } from 'rxjs/operators';
 import { ApiService } from '@core/service/api.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { FileList } from '@ta/model/request';
-import { Student } from '@ta/model/member';
+import { Student, FileList } from '@ta/model/member';
 @Injectable({
   providedIn: 'root',
 })
@@ -110,7 +109,7 @@ export class RequestService {
   }
 
   getPublicity() {
-    return this.api.get<any>('student/me/publicity').pipe(
+    return this.api.get<any>('student/publicity').pipe(
       tap({
         next: (response) => {
           console.log('in request service getPublicity', response);

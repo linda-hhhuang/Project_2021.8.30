@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '@ta/admin/services/admin.service';
-import { FileList } from '@ta/model/request';
-import { Student } from '@ta/model/member';
+import { Student, FileList } from '@ta/model/member';
 import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-admin-member-student',
@@ -19,11 +18,20 @@ export class AdminMemberStudentComponent implements OnInit {
   isVisibleStudent = false;
   isOkLoadingStudent = false;
 
+  isVisiblePass = false;
+  isOkLoadingPass = false;
+
+  passClass: string = '';
+
   searchNameValue = '';
   visibleSearchName = false;
 
   searchSidValue = '';
   visibleSearchSid = false;
+
+  searchClassValue = '';
+  visibleSearchClass = false;
+  status = ['等待评审', '被拒绝论', '奖学金评审通过', '奖学金辅导员评定通过'];
 
   constructor(
     private adminSrvc: AdminService,
@@ -39,15 +47,39 @@ export class AdminMemberStudentComponent implements OnInit {
 
   showModalStudent(e: any) {
     console.log('in Student ', e);
-    this.adminSrvc.getStudentInfo(e.uid).subscribe((v) => {
+    this.adminSrvc.getStudentInfo(e.sid).subscribe((v) => {
       this.currentSelectedUser = v.body;
-      this.isVisibleStudent = true;
+      this.adminSrvc
+        .getStudentFileList(this.currentSelectedUser.sid)
+        .subscribe((file) => {
+          this.fileList = file.body;
+          this.isVisibleStudent = true;
+        });
     });
   }
-
   handleOkStudent(): void {
     this.isVisibleStudent = false;
     this.ngOnInit();
+  }
+
+  //Pass
+  showModalPass(): void {
+    this.isVisiblePass = true;
+    this.passClass = '';
+  }
+  handleOkPass(): void {
+    this.isOkLoadingPass = true;
+    this.adminSrvc.setClassValidate(this.passClass).subscribe((_) => {
+      this.message.success(`成功审批${this.passClass}的奖学金结果!`);
+      this.isOkLoadingPass = false;
+      this.isVisiblePass = false;
+      this.ngOnInit();
+    });
+  }
+  handleCancelPass(): void {
+    console.log('Button cancel clicked!');
+    this.isOkLoadingPass = false;
+    this.isVisiblePass = false;
   }
 
   resetName(): void {
@@ -68,35 +100,55 @@ export class AdminMemberStudentComponent implements OnInit {
   searchSid(): void {
     this.visibleSearchSid = false;
     this.currentDisplayUserList = this.studentList!.filter(
-      (item: Student) => String(item.uid).indexOf(this.searchSidValue) !== -1
+      (item: Student) => String(item.sid).indexOf(this.searchSidValue) !== -1
+    );
+  }
+
+  resetClass(): void {
+    this.searchClassValue = '';
+    this.searchClass();
+  }
+  searchClass(): void {
+    this.visibleSearchClass = false;
+    this.currentDisplayUserList = this.studentList!.filter(
+      (item: Student) =>
+        String(item.class).indexOf(this.searchClassValue) !== -1
     );
   }
 
   deleteConfirm(user: Student) {
-    this.adminSrvc.deleteStudent(user.uid).subscribe((_) => {
+    this.adminSrvc.deleteStudent(user.sid).subscribe((_) => {
       this.message.success('删除学生成功!');
       this.ngOnInit();
     });
   }
 
   validateConfirm(user: Student) {
-    this.adminSrvc.setStudentValidate(user.uid).subscribe((_) => {
-      this.message.success('成功通过学生初试申请!');
+    this.adminSrvc.setStudentValidate(user.sid).subscribe((_) => {
+      this.message.success('成功评定此学生奖学金申请!');
       this.ngOnInit();
     });
   }
 
-  getStudentFileList() {
-    this.adminSrvc
-      .getStudentFileList(this.currentSelectedUser.uid)
-      .subscribe((file) => {
-        this.fileList = file.body;
-      });
-  }
-
   getStudentFile(data: FileList) {
-    this.adminSrvc.getStudentFile(this.currentSelectedUser.uid, data.fid);
+    this.adminSrvc.getStudentFile(this.currentSelectedUser.sid, data.fid);
   }
 
   Cancel() {}
+
+  formatDateTime(dateString: string) {
+    const date = new Date(dateString);
+    let y = date.getFullYear();
+    let m = date.getMonth() + 1;
+    let mm = m < 10 ? '0' + m : m;
+    let d = date.getDate();
+    let dd = d < 10 ? '0' + d : d;
+    let h = date.getHours();
+    let hh = h < 10 ? '0' + h : h;
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+    let minuteS = minute < 10 ? '0' + minute : minute;
+    let secondS = second < 10 ? '0' + second : second;
+    return y + '-' + mm + '-' + dd + ' ' + hh + ':' + minuteS + ':' + secondS;
+  }
 }

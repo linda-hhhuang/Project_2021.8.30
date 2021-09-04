@@ -108,7 +108,7 @@ export class AdminService {
   }
 
   getTeacherList() {
-    return this.api.get<any>('/admin/student/list').pipe(
+    return this.api.get<any>('/admin/reviewer/list').pipe(
       tap({
         next: (response) => {
           // this.studentList.next(response.body);

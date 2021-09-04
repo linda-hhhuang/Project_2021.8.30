@@ -24,7 +24,7 @@ export class StudentScoreComponent implements OnInit {
           sid: v.sid,
           score: v.score,
           status:
-            v.status == 2 || v.status == 3 ? '未获得奖学金' : '获得奖学金',
+            v.status == 2 || v.status == 3 ? '获得奖学金' : '未获得奖学金',
         };
       });
       // console.log(data);

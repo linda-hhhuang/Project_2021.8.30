@@ -31,7 +31,7 @@ export class AdminMemberStudentComponent implements OnInit {
 
   searchClassValue = '';
   visibleSearchClass = false;
-  status = ['等待评审', '被拒绝论', '奖学金评审通过', '奖学金辅导员评定通过'];
+  status = ['等待评审', '已被拒绝', '奖学金评审通过', '奖学金辅导员评定通过'];
 
   constructor(
     private adminSrvc: AdminService,

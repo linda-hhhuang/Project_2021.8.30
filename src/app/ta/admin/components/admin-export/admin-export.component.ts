@@ -16,15 +16,7 @@ export class AdminExportComponent implements OnInit {
     this.isLoading = true;
     let title = ['姓名', '学号', '班级', '自评分数', '状态'];
 
-    let titleForKey = [
-      'name',
-      'uid',
-      'class',
-      'groupGid',
-      'score1',
-      'pass1',
-      'score2',
-    ];
+    let titleForKey = ['name', 'sid', 'class', 'score', 'status'];
     this.adminSrvc.getStudentList().subscribe((v) => {
       this.isLoading = false;
       let data = v.body.map((v: Student) => {
@@ -34,7 +26,7 @@ export class AdminExportComponent implements OnInit {
           class: v.class,
           score: v.score,
           status:
-            v.status == 2 || v.status == 3 ? '未获得奖学金' : '获得奖学金',
+            v.status == 2 || v.status == 3 ? '获得奖学金' : '未获得奖学金',
         };
       });
       let str = [];

@@ -58,7 +58,6 @@ export class StudentPersonalComponent implements OnInit {
 
   ngOnInit(): void {
     this.requestrSrvc.getStudentInfo().subscribe((v) => {
-      console.log('in showModalUpdateInfo', v);
       this.currentStudentInfo = v.body;
       this.currentStatus = this.currentStudentInfo.status;
     });
@@ -67,14 +66,13 @@ export class StudentPersonalComponent implements OnInit {
   //报名表
   showModalUpdateInfo(): void {
     this.requestrSrvc.getStudentInfo().subscribe((v) => {
-      console.log('in showModalUpdateInfo', v);
       this.isVisibleUpdateInfo = true;
       this.currentStudentInfo = v.body;
     });
   }
   handleOkUpdateInfo(): void {
     this.isOkLoadingUpdateInfo = true;
-    console.log('in handleOkUpdateInfo, data is ', this.currentStudentInfo);
+
     // if (this.currentStudentInfo.SignupTemplate.description.length > 300) {
     //   this.message.error('申请人个人陈述字数不能超过300个字!');
     //   this.isOkLoadingUpdateInfo = false;
@@ -90,7 +88,6 @@ export class StudentPersonalComponent implements OnInit {
       });
   }
   handleCancelUpdateInfo(): void {
-    console.log('Button cancel clicked!');
     this.isOkLoadingUpdateInfo = false;
     this.isVisibleUpdateInfo = false;
   }
@@ -98,7 +95,6 @@ export class StudentPersonalComponent implements OnInit {
   //文件
   showModalUpload(): void {
     this.requestrSrvc.getUploadFileList().subscribe((v) => {
-      console.log('in student-personal ngOnInit, data is ', v);
       this.displayFileList = v.body;
       this.isVisibleUpload = true;
     });
@@ -120,7 +116,7 @@ export class StudentPersonalComponent implements OnInit {
 
   beforeUpload = (file: NzUploadFile): boolean => {
     // 对上传文件大小进行限制
-    console.log('file', file);
+
     const isLt10M = file.size! / 1024 / 1024 < 10;
     if (!isLt10M) {
       this.message.warning('文件必须在10M以内');
@@ -129,7 +125,7 @@ export class StudentPersonalComponent implements OnInit {
       return false;
     }
     this.fileList = this.fileList.concat(file);
-    console.log('filelist', this.fileList);
+
     return false;
   };
 
@@ -139,14 +135,13 @@ export class StudentPersonalComponent implements OnInit {
       this.uploading = true; // 修改上传按钮状态
       const formData = new FormData();
       formData.append('file', file);
-      console.log('in filelist foreach ', file);
+
       this.requestrSrvc.uploadFile(formData).subscribe((_) => {
         this.uploading = false;
         this.message.success(
           `${file.name} 上传完毕,请在下方检查成功上传的文件`
         );
         this.requestrSrvc.getUploadFileList().subscribe((v) => {
-          console.log('in student-personal , data is ', v);
           this.displayFileList = v.body;
           this.isVisibleUpload = true;
         });
@@ -158,7 +153,6 @@ export class StudentPersonalComponent implements OnInit {
   deleteUploadConfirm(data: FileList) {
     this.requestrSrvc.deleteUpload(data.fid).subscribe((_) => {
       this.requestrSrvc.getUploadFileList().subscribe((v) => {
-        console.log('in student-personal , data is ', v);
         this.displayFileList = v.body;
         this.isVisibleUpload = true;
       });

@@ -27,7 +27,6 @@ export class TeacherService {
       tap({
         next: (response) => {
           // this.studentList.next(response.body);
-          console.log('in TeacherService getStudentList', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -41,7 +40,6 @@ export class TeacherService {
       tap({
         next: (response) => {
           // this.studentInfo.next(response.body);
-          console.log('in TeacherService getStudentInfo', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -55,7 +53,6 @@ export class TeacherService {
       tap({
         next: (response) => {
           // this.studentFileList.next(response.body);
-          console.log('in TeacherService getStudentFileList', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -71,9 +68,7 @@ export class TeacherService {
   setStudentPass(sid: number) {
     return this.api.put<any>(`/reviewer/student/${sid}/pass`, null).pipe(
       tap({
-        next: (response) => {
-          console.log('in Student service setStudentPass', response);
-        },
+        next: (response) => {},
         error: (err) => {
           this.handleError(err.error.msg);
         },
@@ -89,9 +84,7 @@ export class TeacherService {
       })
       .pipe(
         tap({
-          next: (response) => {
-            console.log('in Student service setStudentReject', response);
-          },
+          next: (response) => {},
           error: (err) => {
             this.handleError(err.error.msg);
           },

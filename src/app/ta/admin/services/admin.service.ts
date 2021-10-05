@@ -27,7 +27,6 @@ export class AdminService {
       tap({
         next: (response) => {
           // this.studentList.next(response.body);
-          console.log('in Student service getStudentList', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -41,7 +40,6 @@ export class AdminService {
       tap({
         next: (response) => {
           // this.studentInfo.next(response.body);
-          console.log('in Student service getStudentInfo', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -55,7 +53,6 @@ export class AdminService {
       tap({
         next: (response) => {
           // this.studentFileList.next(response.body);
-          console.log('in Student service getStudentFileList', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -71,9 +68,7 @@ export class AdminService {
   setStudentValidate(sid: number) {
     return this.api.put<any>(`/admin/student/${sid}/validate`, null).pipe(
       tap({
-        next: (response) => {
-          console.log('in Student service setStudentValidate', response);
-        },
+        next: (response) => {},
         error: (err) => {
           this.handleError(err.error.msg);
         },
@@ -84,9 +79,7 @@ export class AdminService {
   setClassValidate(className: string) {
     return this.api.put<any>(`/admin/class/${className}/pass`, null).pipe(
       tap({
-        next: (response) => {
-          console.log('in Student service setClassValidate', response);
-        },
+        next: (response) => {},
         error: (err) => {
           this.handleError(err.error.msg);
         },
@@ -97,9 +90,7 @@ export class AdminService {
   deleteStudent(sid: number) {
     return this.api.delete<any>(`/admin/student/${sid}`).pipe(
       tap({
-        next: (response) => {
-          console.log('in Student service deleteStudent', response);
-        },
+        next: (response) => {},
         error: (err) => {
           this.handleError(err.error.msg);
         },
@@ -112,7 +103,6 @@ export class AdminService {
       tap({
         next: (response) => {
           // this.studentList.next(response.body);
-          console.log('in Teacher service getTeacherList', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -126,7 +116,6 @@ export class AdminService {
       tap({
         next: (response) => {
           // this.reviewerInfo.next(response.body);
-          console.log('in Teacher service getTeacherInfo', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -138,9 +127,7 @@ export class AdminService {
   deleteTeacher(sid: number) {
     return this.api.delete<any>(`/admin/reviewer/${sid}`).pipe(
       tap({
-        next: (response) => {
-          console.log('in Teacher service deleteTeacher', response);
-        },
+        next: (response) => {},
         error: (err) => {
           this.handleError(err.error.msg);
         },

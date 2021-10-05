@@ -33,7 +33,6 @@ export class RequestService {
     return this.api.get<any>('/student/me').pipe(
       tap({
         next: (response) => {
-          console.log('in request service getStudentInfo', response);
           this.currentStudent.next(response.body);
         },
         error: (err) => {
@@ -53,7 +52,6 @@ export class RequestService {
         tap({
           next: (response) => {
             this.currentStudent.next(response.body);
-            console.log('in request service updateStudentInfo ok', response);
           },
           error: (err) => {
             this.handleError(err.error.msg);
@@ -67,7 +65,6 @@ export class RequestService {
       tap({
         next: (response) => {
           this.getUploadFileList().subscribe();
-          console.log('in request service updateStudentInfo ok', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -81,7 +78,6 @@ export class RequestService {
       tap({
         next: (response) => {
           this.fileList.next(response.body);
-          console.log('in request service getUploadFileList ok', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -95,7 +91,6 @@ export class RequestService {
       tap({
         next: (response) => {
           this.getUploadFileList().subscribe();
-          console.log('in request service deleteUpload ok', response);
         },
         error: (err) => {
           this.handleError(err.error.msg);
@@ -111,9 +106,7 @@ export class RequestService {
   getPublicity() {
     return this.api.get<any>('student/publicity').pipe(
       tap({
-        next: (response) => {
-          console.log('in request service getPublicity', response);
-        },
+        next: (response) => {},
         error: (err) => {
           this.handleError(err.error.msg);
         },

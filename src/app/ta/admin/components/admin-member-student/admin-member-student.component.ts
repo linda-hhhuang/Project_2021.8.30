@@ -46,7 +46,6 @@ export class AdminMemberStudentComponent implements OnInit {
   }
 
   showModalStudent(e: any) {
-    console.log('in Student ', e);
     this.adminSrvc.getStudentInfo(e.sid).subscribe((v) => {
       this.currentSelectedUser = v.body;
       this.adminSrvc
@@ -77,7 +76,6 @@ export class AdminMemberStudentComponent implements OnInit {
     });
   }
   handleCancelPass(): void {
-    console.log('Button cancel clicked!');
     this.isOkLoadingPass = false;
     this.isVisiblePass = false;
   }

@@ -19,21 +19,15 @@ export class TAGuard implements CanActivate {
     private message: GlobalMessageService
   ) {}
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('in ta.guard');
-    this.userServ
-      .memberInit()
-      .subscribe((_) =>
-        console.log('subscribe memberinit in guard(ta) and ', _)
-      );
+    this.userServ.memberInit().subscribe();
     return this.userServ.memberRole$.pipe(
       skipWhile((v) => v == -1),
       map((role) => {
-        if ( role == 0) {
+        if (role == 0) {
           // delay(0);
-          console.log('ta.guard: role=0 : true(default)');
+
           return true;
         } else if (role == 1 || role == 2) {
-          console.log('ta.guard: role=1/2 : ', this.userServ.hasmember);
           if (this.userServ.hasmember) {
             return true;
           } else {
@@ -41,7 +35,6 @@ export class TAGuard implements CanActivate {
             return this.router.parseUrl('/home');
           }
         } else {
-          console.log('!!!!!!!!!! role 值错误 !!!!!!!!!');
           return false;
         }
       })

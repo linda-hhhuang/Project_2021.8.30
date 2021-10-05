@@ -35,7 +35,7 @@ export class AdminMemberTeacherComponent implements OnInit {
   }
 
   // showModalShowInfo(e: any) {
-  //   console.log('in ShowInfo ', e);
+  //
   //   this.adminSrvc.getTeacherInfo(e.sid).subscribe((v) => {
   //     this.currentSelectedUser = v.body;
   //     this.isVisibleShowInfo = true;

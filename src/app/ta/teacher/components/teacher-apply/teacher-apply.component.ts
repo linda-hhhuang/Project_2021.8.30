@@ -47,7 +47,7 @@ export class TeacherApplyComponent implements OnInit {
 
   showModalShowInfo(e: Student) {
     this.isReject = false;
-    console.log('in ShowInfo ', e);
+
     this.commentValue = '无评论';
     this.teacherSrvc.getStudentInfo(e.sid).subscribe((v) => {
       this.currentSelectedStudent = v.body;
@@ -64,7 +64,6 @@ export class TeacherApplyComponent implements OnInit {
   }
 
   showModalShowComment(e: Student) {
-    console.log('in ShowComment ', e);
     this.currentSelectedStudent = e;
     this.teacherSrvc.getStudentInfo(e.sid).subscribe((v) => {
       this.commentList = v.body.Comment;
